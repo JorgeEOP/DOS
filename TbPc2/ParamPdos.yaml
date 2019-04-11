@@ -1,0 +1,19 @@
+---
+#Constants
+Constants:
+ - Hartree: 27.211384523
+# Gaussian parameters
+Gaussian Parameters:
+ - Standard deviation: 0.15
+ - Points: 3000
+ - Columns:
+   MO: 0
+   Eigenval: 1
+   Occupation: 2
+   s-Orbitals: 3
+   p-Orbitals: 6
+   d-Orbitals: 11
+   f-3-Orbital: 12
+   f+3-Orbital: 18
+   g-Orbitals: 27
+...
