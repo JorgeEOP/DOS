@@ -28,14 +28,6 @@ ctr4  =  inputval['Gaussian Parameters'][2]['d-Orbitals']
 ctr5  =  inputval['Gaussian Parameters'][2]['f-3-Orbital']
 ctr6  =  inputval['Gaussian Parameters'][2]['f+3-Orbital']
 ctr7  =  inputval['Gaussian Parameters'][2]['g-Orbitals']
-#ctr0     =  0  #MO
-#ctr1     =  1  #Eigenvals
-#ctr2     =  3  #first s
-#ctr3     =  6  #Until p
-#ctr4     =  11 #Unitl d
-#ctr5     =  12 #from f
-#ctr6     =  18 #Until last f
-#ctr7     =  27 #Until last g
 
 ab  =  zeros(points, dtype=[('var1', float), ('var2', float), ('var3', float), ('var4', float),\
            ('var5', float), ('var6', float), ('var7', float), ('var8', float), ('var9', float),\

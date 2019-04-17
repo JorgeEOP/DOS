@@ -7,22 +7,27 @@ from funcpot import gaussian
 from funcpot import unique_file
 import math
 import funcpot
+import yaml
 
 #####################################################################
 ##  Plot Total DOS and Projected DOS per atom for specific orbital ## 
 #####################################################################
 
-Hartree  =  27.211384523
-sigma    =  0.15
-points   =  3000
-ctr0     =  0  #MO
-ctr1     =  1  #Eigenvals
-ctr2     =  3  #first s
-ctr3     =  6  #Until p
-ctr4     =  11 #Unitl d
-ctr5     =  12 #from f
-ctr6     =  18 #Until last f
-ctr7     =  27 #Until last g
+with open('ParamPdos.yaml', 'r') as ymlfile:
+    inputval = yaml.load(ymlfile)
+
+Hartree  =  inputval['Constants'][0]['Hartree']
+sigma    =  inputval['Gaussian Parameters'][0]['Standard deviation']
+points   =  inputval['Gaussian Parameters'][1]['Points']
+ctr0  =  inputval['Gaussian Parameters'][2]['MO']
+
+ctr1  =  inputval['Gaussian Parameters'][2]['Eigenval']
+ctr2  =  inputval['Gaussian Parameters'][2]['s-Orbitals']
+ctr3  =  inputval['Gaussian Parameters'][2]['p-Orbitals']
+ctr4  =  inputval['Gaussian Parameters'][2]['d-Orbitals']
+ctr5  =  inputval['Gaussian Parameters'][2]['f-3-Orbital']
+ctr6  =  inputval['Gaussian Parameters'][2]['f+3-Orbital']
+ctr7  =  inputval['Gaussian Parameters'][2]['g-Orbitals']
 
 ab  =  zeros(points, dtype=[('var1', float), ('var2', float), ('var3', float), ('var4', float),\
            ('var5', float), ('var6', float), ('var7', float), ('var8', float), ('var9', float),\
