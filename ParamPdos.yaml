@@ -1,11 +1,15 @@
 ---
-#Constants
-Constants:
- - Hartree: 27.211384523
-# Gaussian parameters
+Name of the system: 2-PorYPc-2teGEO
+Number of elements in the system: 5
+Spin Polarized system: y
+Name of PDOS: 2-PorYPc-2teGEO-ALPHA_k1-1.pdos
+Path to Input: 2PorYPc/HS/2te_GEO/CP2K/
+Path to Output: 2PorYPc/HS/2te_GEO/CP2K/
+Name of PDOS alpha: 2-PorYPc-2teGEO-ALPHA_k1-1.pdos
+Name of PDOS beta: 2-PorYPc-2teGEO-BETA_k1-1.pdos 
 Gaussian Parameters:
- - Standard deviation: 0.15
- - Points: 3000
+ - Standard deviation: 0.01
+ - Points: 12000
  - Columns:
    MO: 0
    Eigenval: 1

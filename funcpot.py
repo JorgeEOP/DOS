@@ -3,6 +3,9 @@ import numpy as np
 import cmath
 import itertools
 import os
+import re
+import sys
+
 
 HBAR   = 1.05457e-34    #SI
 ME     = 9.10938e-31    #SI 
@@ -12,15 +15,16 @@ im    = np.complex(0,1)
 #######################################################
 #### Functions for the Barrier, D-Barrier problems ####
 #######################################################
-
 '''Wavevectors'''
 def wk1(y):
     k1m = math.sqrt(CTE * y)
     return k1m
 
+
 def wk2(y,V0):
     k2m = cmath.sqrt(CTE * (y - V0))
     return k2m
+
 
 '''Matrices'''
   #Exponentials
@@ -28,9 +32,12 @@ def Matrix(z,x):
     Mat = np.array([[np.exp(z*x),np.exp(-z*x)],[z*np.exp(z*x),-z*np.exp(-z*x)]])
     return Mat
   #Linear
+
+
 def MatrixLin(x):
     Mat = np.array([[1,x],[0,1]])
     return Mat
+
 
 '''Pontentials'''
 def steppot(i,x,V0):
@@ -41,6 +48,7 @@ def steppot(i,x,V0):
         V = 0.0
         return V
 
+
 def squarepot(i,x,V0):
     if i >= x and i <= x:
         V = V0
@@ -48,6 +56,7 @@ def squarepot(i,x,V0):
     else:
         V = 0.0
         return V
+
 
 ''' Thomas Algoritm function  '''
 def TDMAsolver(a, b, c, d):
@@ -66,10 +75,10 @@ def TDMAsolver(a, b, c, d):
 
     return xc
 
+
 ########################################
 #### Functions for Printing options ####
 ########################################
-
 '''Create all the time a file with different name'''
 def unique_file(rootname, ext, ty_p):
     actualname  =  "%s.%s" % (rootname, ext)
@@ -82,10 +91,8 @@ def unique_file(rootname, ext, ty_p):
         actualname  =  "%s.%s" % (rootname, ext)
         return actualname
 
-####################
-#### Open files ####
-####################
 
+# Open files 
 '''Open and read files and special lines'''
 'Ctrs are the colums to read from a file '
 def read_files(filename, ctr1, ctr2, lines_2_skip):
@@ -100,10 +107,7 @@ def read_files(filename, ctr1, ctr2, lines_2_skip):
 #            col2.append(line.strip().split()[ctr2])
         return specific_string
 
-####################
-#### Open files ####
-####################
-
+# Open files
 '''Open and read files General'''
 def read_files_general(filename, ctr1, ctr2, lines_2_skip):
     cols        =  [[] for i in range(ctr1, ctr2 + 1)]
@@ -111,10 +115,7 @@ def read_files_general(filename, ctr1, ctr2, lines_2_skip):
     cols = np.loadtxt(filename, skiprows=lines_2_skip, usecols=col_2_read)
     return np.transpose(cols)
 
-##############################################
-#### Functions for Density of states CP2K ####
-##############################################
-
+# Functions for Density of states CP2K
 '''Gaussian function'''
 def gaussian(emin, emax, centre, sigma, npts):
     energies  =  np.linspace(emin, emax, npts)
@@ -125,3 +126,19 @@ def gaussian(emin, emax, centre, sigma, npts):
 def tot_dens(dos_alpha, dos_beta):
     return [i+j for i,j in zip(dos_alpha,dos_beta)]
 
+def getEf(CP2Kpdosfile, har2eV):
+    Ef = []
+    try:
+        with open(CP2Kpdosfile) as f1:
+            for line in f1.readlines():
+                Efs  = re.search(r".*?fermi\s+energy\s?.*?(-?\d+\.\d+).*?", line, flags=re.IGNORECASE)
+                Efs1 = re.search(r"(step i = 0), (\D*) (.*\d)", line)
+                if Efs:
+                    Ef.append(float(Efs.group(1)))
+                if Efs1:
+                    Ef.append(float(Efs1.group(3)))
+                    Ef = [har2eV*i for i in Ef]
+        return Ef
+    except FileNotFoundError:
+        print ("Wrong file or path to *.out file!")
+        sys.exit()
