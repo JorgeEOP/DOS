@@ -190,8 +190,6 @@ class projected_dos:
 
                  
                 dos_total     =  funcpot.tot_dens(Tdos_alpha,Tdos_beta)
-                #Ligand_alpha  =  [xw1+xw2+xw3 for xw1, xw2, xw3 in zip(Pdos_alpha_N, Pdos_alpha_C, Pdos_alpha_H)]
-                #Ligand_beta   =  [xw1+xw2+xw3 for xw1, xw2, xw3 in zip(Pdos_beta_N, Pdos_beta_C, Pdos_beta_H)]
             
                 ab['var0']  =  energies
                 ab['var1']  =  Tdos_alpha
