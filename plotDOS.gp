@@ -28,17 +28,14 @@ set title "PDOS: 2Por-Y-Pc"
 
 set style textbox opaque noborder
 
-#F2P   = "2PorYPc/LS/1te_GEO/CP2K/2-PorYPc-1teGEO_T-PDOS.dat"
-#F2P   = "2PorYPc/LS/1te_GEO/CP2K/2te_runde/UKS/WFN_SWAP/2-PorYPc-1teGEO_T-PDOS.dat"
-F2P   = "2PorYPc/LS/2te_GEO/CP2K/2te_runde/UKS/WFN_FLIP/2-PorYPc-2teGEO_T-PDOS.dat"
-#F2P_1 = "2PorYPc/LS/2te_GEO/Turbomole/dos_alpha"
-#F2P_2 = "2PorYPc/LS/2te_GEO/Turbomole/dos_beta"
+F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/2m/SinPoint/\
+CP2K/run_mul_3/2-membered-T-PDOS.dat"
 
 set grid ls 11
 set grid xtics
 set grid mytics
-set xrange [-6:-3]
-set yrange [-50:50]
+set xrange [-5:-2]
+set yrange [-150:150]
 #set yrange [-2000:2000]
 set format x "%2.1f"
 set format y "%2.0f"
@@ -57,11 +54,10 @@ set style textbox opaque noborder
 #set label '{/Symbol a} ' at -0.5,19 boxed
 #set label '{/Symbol b} ' at -0.5,-19 boxed
 
-#set output '2PorYPc/LS/1te_GEO/CP2K/PDOS_2Por-Y-Pc.png'
-#set output '2PorYPc/LS/1te_GEO/CP2K/2te_runde/UKS/WFN_SWAP/PDOS_2Por-Y-Pc.png'
-set output '2PorYPc/LS/2te_GEO/CP2K/2te_runde/UKS/WFN_FLIP/PDOS_2Por-Y-Pc.png'
-fenA = -4.053326461043635
-fenB = -4.053326461043635 
+set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/2m/\
+SinPoint/CP2K/run_mul_3/PDOS-2m-YPc.png'
+fenA = -2.4286978566131667 
+fenB = -3.0367362822797688
 set arrow from fenA, graph 1 to fenA, graph 0.5 nohead ls 111
 set arrow from fenB, graph 0 to fenB, graph 0.5 nohead ls 111
 

@@ -1,12 +1,12 @@
 ---
-Name of the system: 2-PorYPc-2teGEO
-Number of elements in the system: 5
+Name of the system: 2-membered
+Number of elements in the system: 4
 Spin Polarized system: y
-Name of PDOS: 2-PorYPc-2teGEO-ALPHA_k1-1.pdos
-Path to Input: 2PorYPc/LS/2te_GEO/CP2K/2te_runde/UKS/WFN_FLIP/
-Path to Output: 2PorYPc/LS/2te_GEO/CP2K/2te_runde/UKS/WFN_FLIP/
-Name of PDOS alpha: 2-PorYPc-2teGEO-ALPHA_k1-1.pdos
-Name of PDOS beta: 2-PorYPc-2teGEO-BETA_k1-1.pdos 
+Name of PDOS: 2-membered-ALPHA_k1-1.pdos
+Path to Input: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/2m/SinPoint/CP2K/run_mul_3/
+Path to Output: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/2m/SinPoint/CP2K/run_mul_3/
+Name of PDOS alpha: 2-membered-ALPHA_k1-1.pdos
+Name of PDOS beta: 2-membered-BETA_k1-1.pdos
 Gaussian Parameters:
  - Standard deviation: 0.01
  - Points: 12000
@@ -15,9 +15,4 @@ Gaussian Parameters:
    Eigenval: 1
    Occupation: 2
    s-Orbitals: 3
-   p-Orbitals: 6
-   d-Orbitals: 11
-   f-3-Orbital: 12
-   f+3-Orbital: 18
-   g-Orbitals: 27
 ...

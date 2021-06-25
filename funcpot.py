@@ -111,9 +111,25 @@ def read_files(filename, ctr1, ctr2, lines_2_skip):
 '''Open and read files General'''
 def read_files_general(filename, ctr1, ctr2, lines_2_skip):
     cols        =  [[] for i in range(ctr1, ctr2 + 1)]
-    col_2_read  =  np.arange(ctr1, ctr2 + 1)
+    col_2_read  =  np.arange(ctr1, ctr1 + ctr2)
     cols = np.loadtxt(filename, skiprows=lines_2_skip, usecols=col_2_read)
     return np.transpose(cols)
+
+def read_count(filename, lines_2_skip):
+    with open(filename, 'r') as stream:
+        count_l = 0
+        for iline in stream.readlines():
+            count_l += 1
+            if count_l == 3:
+                cols_count = iline.split()
+            else:
+                pass
+    cols_count.pop(0)
+    cols_count.pop(0)
+    cols_count.pop(0)
+    cols = len(cols_count)
+
+    return int(cols)
 
 # Functions for Density of states CP2K
 '''Gaussian function'''

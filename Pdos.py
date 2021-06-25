@@ -1,13 +1,11 @@
-import numpy as np
-import sys
-import os
-from numpy import asarray
+from pandas import DataFrame as df
 from numpy import zeros
-from numpy import append
-#import scipy.constants as phys
-import math
+import pandas as pd
+import numpy as np
 import funcpot
 import yaml
+import sys
+import os
 
 #####################################################################
 ##  Plot Total DOS and Projected DOS per atom for specific orbital ## 
@@ -31,11 +29,6 @@ class projected_dos:
         self.eigenval    = config["Gaussian Parameters"][2]["Eigenval"]
         self.ocuppation  = config["Gaussian Parameters"][2]["Occupation"]
         self.s_orbit     = config["Gaussian Parameters"][2]["s-Orbitals"]
-        self.p_orbit     = config["Gaussian Parameters"][2]["p-Orbitals"]
-        self.d_orbit     = config["Gaussian Parameters"][2]["d-Orbitals"]
-        self.fm3_orbit   = config["Gaussian Parameters"][2]["f-3-Orbital"]
-        self.fp3_orbit   = config["Gaussian Parameters"][2]["f+3-Orbital"]
-        self.g_orbit     = config["Gaussian Parameters"][2]["g-Orbitals"]
 
     def generate_pdos(self): 
         if self.Spin in ["No","no","N","n"]:
@@ -65,14 +58,7 @@ class projected_dos:
                 np.savetxt(f1, ab1, fmt=('%4.6f', '%4.6f','%4.6f'))
 
         elif self.Spin in ["Yes","yes","Y","y"]:
-            ab  =  zeros(self.points, dtype=[('var0', float),  ('var1', float),
-                                             ('var2', float),  ('var3', float),
-                                             ('var4', float),  ('var5', float),
-                                             ('var6', float),  ('var7', float),
-                                             ('var8', float),  ('var9', float),
-                                             ('var10', float), ('var11', float),
-                                             ('var12', float), ('var13', float)])
-        
+
             Ef = []
 
             alpha_f = os.path.join(self.p_in, self.PDOS_alpha)
@@ -81,14 +67,13 @@ class projected_dos:
                 Ef += funcpot.getEf(i, har2eV)
             print ('Fermi energy alpha [eV]: ', Ef[0], '\nFermi energy beta [eV]: ', Ef[1])
         
-        
             tot_eigen_alpha   =  funcpot.read_files_general(alpha_f, self.eigenval, self.eigenval, 2)
             totE_diff_alpha   =  [x*har2eV for x in tot_eigen_alpha]
-            Tdos_alpha        =  zeros(self.points)
+            Tdos_alpha        =  np.zeros(self.points)
             
             tot_eigen_beta    =  funcpot.read_files_general(beta_f, self.eigenval, self.eigenval, 2)
             totE_diff_beta    =  [x*har2eV for x in tot_eigen_beta]
-            Tdos_beta         =  zeros(self.points)
+            Tdos_beta         =  np.zeros(self.points)
            
             energies_a  =  np.linspace(min(totE_diff_alpha), max(totE_diff_alpha), self.points)
             energies_b  =  np.linspace(min(totE_diff_beta), max(totE_diff_beta), self.points)
@@ -99,115 +84,60 @@ class projected_dos:
             min_e       =  min(min_e_a, min_e_b) + 4*self.sigma
             max_e       =  max(max_e_a, max_e_b) + 4*self.sigma
             energies    =  np.linspace(min_e, max_e, self.points)
-            dos_total   =  zeros(self.points)
+            dos_total   =  np.zeros(self.points)
+
+            Peigs_dic    = {}
+            orbitals_dic = {}
+            Pdos_dic     = {}
+            All_daten    = {}
             
             nelements = int(self.Nelements)
-            print (nelements)
-        
-            Peig_alpha_Y    =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-ALPHA_k1-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_alpha_N    =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-ALPHA_k2-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_alpha_O   =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) + 
-                                            "-ALPHA_k3-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_alpha_C =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-ALPHA_k4-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_alpha_H    =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-ALPHA_k5-1.pdos", self.s_orbit,
-                                            self.p_orbit, 2)
+            for iel in range(1,nelements+1):
+                for spin in ['ALPHA', 'BETA']:
+                    cols = funcpot.read_count(os.path.join(
+                                              self.p_in, self.Name) + "-" +
+                                              spin + "_k" + str(iel) + "-1.pdos",
+                                              2)
 
-            Peig_beta_Y    =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-BETA_k1-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_beta_N    =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-BETA_k2-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_beta_O   =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) + 
-                                            "-BETA_k3-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_beta_C =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-BETA_k4-1.pdos", self.s_orbit,
-                                            self.d_orbit, 2)
-            Peig_beta_H    =  funcpot.read_files_general(os.path.join(self.p_in,self.Name) +
-                                            "-BETA_k5-1.pdos", self.s_orbit,
-                                            self.p_orbit, 2)
-       
-            orbital_alpha_Y =  [sum(x) for x in zip(*Peig_alpha_Y)]
-            orbital_alpha_N =  [sum(x) for x in zip(*Peig_alpha_N)]
-            orbital_alpha_O =  [sum(x) for x in zip(*Peig_alpha_O)]
-            orbital_alpha_C =  [sum(x) for x in zip(*Peig_alpha_C)]
-            orbital_alpha_H =  [sum(x) for x in zip(*Peig_alpha_H)]
-            orbital_beta_Y  =  [sum(x) for x in zip(*Peig_beta_Y)]
-            orbital_beta_N  =  [sum(x) for x in zip(*Peig_beta_N)]
-            orbital_beta_O  =  [sum(x) for x in zip(*Peig_beta_O)]
-            orbital_beta_C  =  [sum(x) for x in zip(*Peig_beta_C)]
-            orbital_beta_H  =  [sum(x) for x in zip(*Peig_beta_H)]
-            
-            Pdos_alpha_Y =  zeros(self.points)
-            Pdos_alpha_N =  zeros(self.points)
-            Pdos_alpha_O =  zeros(self.points)
-            Pdos_alpha_C =  zeros(self.points)
-            Pdos_alpha_H =  zeros(self.points)
-            Pdos_beta_Y  =  zeros(self.points)
-            Pdos_beta_N  =  zeros(self.points)
-            Pdos_beta_O  =  zeros(self.points)
-            Pdos_beta_C  =  zeros(self.points)
-            Pdos_beta_H  =  zeros(self.points)
-            electrons_4f =  0
+                    Peigs_dic[str(spin)+"_k"+str(iel)] = funcpot.read_files_general(
+                                            os.path.join(self.p_in, self.Name) +
+                                            "-" + spin + "_k" + str(iel) + "-1.pdos",
+                                            self.s_orbit, cols, 2)
 
-            with open(funcpot.unique_file(self.p_out + self.Name + '_T-PDOS',
-                                          'dat', 2), 'wb') as f1:
-                for x in totE_diff_alpha:
-                    Tdos_alpha      +=  funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for y in totE_diff_beta:
-                    Tdos_beta       +=  funcpot.gaussian(min_e, max_e, y, self.sigma, self.points)
-            
-                for x, w in zip(totE_diff_alpha, orbital_alpha_Y):
-                    Pdos_alpha_Y     +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_alpha, orbital_alpha_N):
-                    Pdos_alpha_N     +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_alpha, orbital_alpha_O):
-                    Pdos_alpha_O  +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_alpha, orbital_alpha_C):
-                    Pdos_alpha_C  +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_alpha, orbital_alpha_H):
-                    Pdos_alpha_H  +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
+                    orbitals_dic[str(spin)+"_k"+str(iel)] = [sum(x) for x in
+                                       zip(*Peigs_dic[str(spin)+"_k"+str(iel)])]
 
-                for x, w in zip(totE_diff_beta, orbital_beta_Y):
-                    Pdos_beta_Y     +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_beta, orbital_beta_N):
-                    Pdos_beta_N     +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_beta, orbital_beta_O):
-                    Pdos_beta_O  +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_beta, orbital_beta_C):
-                    Pdos_beta_C  +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                for x, w in zip(totE_diff_beta, orbital_beta_H):
-                    Pdos_beta_H  +=  w*funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
+                    Pdos_dic[str(spin)+"_k"+str(iel)] = np.zeros(self.points)
 
-                 
-                dos_total     =  funcpot.tot_dens(Tdos_alpha,Tdos_beta)
-            
-                ab['var0']  =  energies
-                ab['var1']  =  Tdos_alpha
-                ab['var2']  =  Tdos_beta
-                ab['var3']  =  dos_total
-                ab['var4']  =  Pdos_alpha_Y
-                ab['var5']  =  Pdos_alpha_N
-                ab['var6']  =  Pdos_alpha_O
-                ab['var7']  =  Pdos_alpha_C
-                ab['var8']  =  Pdos_beta_H
-                ab['var9']  =  Pdos_beta_Y
-                ab['var10'] =  Pdos_beta_N
-                ab['var11'] =  Pdos_beta_O
-                ab['var12'] =  Pdos_beta_C
-                ab['var13'] =  Pdos_beta_H
-                #ab['var13']  =  Ligand_alpha
-                #ab['var14']  =  Ligand_beta
-                #ab['var15']  =  Pdos_alpha_Tb_S
-                #ab['var16']  =  Pdos_beta_Tb_S
-                np.savetxt(f1, ab, fmt=('%4.6f', '%4.6f', '%4.6f', '%4.6f', '%4.6f', '%4.6f', '%4.6f', '%4.6f',\
-                                         '%4.6f', '%4.6f', '%4.6f', '%4.6f', '%4.6f', '%4.6f'))
+                    for x, w in zip(totE_diff_alpha,
+                                    orbitals_dic[str(spin)+"_k"+str(iel)]):
+                        Pdos_dic[str(spin)+"_k"+str(iel)] += w*funcpot.gaussian(min_e,
+                                                                           max_e, x,
+                                                                           self.sigma,
+                                                                           self.points)
+
+                    if spin == 'ALPHA':
+                        for x in totE_diff_alpha:
+                            Tdos_alpha +=  funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
+                    if spin == 'BETA':
+                        for x in totE_diff_beta:
+                            Tdos_beta +=  funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
+
+            # (-1,1) stellt fuer: -1 zu viele Reihe wie Noetig. 1 Spalte
+            dos_total  = funcpot.tot_dens(Tdos_alpha, Tdos_beta)
+            Tdos_alpha = Tdos_alpha.reshape((-1,1))
+            Tdos_beta  = Tdos_beta.reshape((-1,1))
+
+            All_daten = {'energies':energies, 'Tdos_alpha':Tdos_alpha,
+                         'Tdos_beta':Tdos_beta, 'dos_total':np.asarray(dos_total)}
+            All_daten.update(Pdos_dic)
+
+            print (All_daten.keys())
+
+            with open(funcpot.unique_file(self.p_out + self.Name + '-T-PDOS',
+                                          'dat', 2), 'wb') as outstream:
+                All_daten_df = df()
+                for dos_key,pdos_val in All_daten.items():
+                    All_daten_df = pd.concat([All_daten_df, df(pdos_val)], axis=1)
+                np.savetxt(outstream, All_daten_df, fmt='%4.7f')
+
