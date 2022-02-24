@@ -1,0 +1,18 @@
+---
+Name of the system: PorYPc
+Number of elements in the system: 5
+Spin Polarized system: y
+Name of PDOS: 
+Path to Input: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/PorYPc/SinPoint/UP/CP2K/
+Path to Output: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/PorYPc/SinPoint/UP/CP2K/
+Name of PDOS alpha: PorYPc-ALPHA_k1-1.pdos
+Name of PDOS beta: PorYPc-BETA_k1-1.pdos
+Gaussian Parameters:
+ - Standard deviation: 0.01
+ - Points: 12000
+ - Columns:
+   MO: 0
+   Eigenval: 1
+   Occupation: 2
+   s-Orbitals: 3
+...
