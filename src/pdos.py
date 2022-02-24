@@ -98,30 +98,39 @@ class projected_dos:
                                               self.p_in, self.Name) + "-" +
                                               spin + "_k" + str(iel) + "-1.pdos",
                                               2)
+                    print (self.s_orbit,cols)
 
                     Peigs_dic[str(spin)+"_k"+str(iel)] = funcpot.read_files_general(
                                             os.path.join(self.p_in, self.Name) +
-                                            "-" + spin + "_k" + str(iel) + "-1.pdos",
-                                            self.s_orbit, cols, 2)
+                                            "-" + spin + "_k" + str(iel) +
+                                            "-1.pdos", self.s_orbit, cols, 2)
 
                     orbitals_dic[str(spin)+"_k"+str(iel)] = [sum(x) for x in
-                                       zip(*Peigs_dic[str(spin)+"_k"+str(iel)])]
+                                      zip(*Peigs_dic[str(spin)+"_k"+str(iel)])]
 
                     Pdos_dic[str(spin)+"_k"+str(iel)] = np.zeros(self.points)
 
-                    for x, w in zip(totE_diff_alpha,
-                                    orbitals_dic[str(spin)+"_k"+str(iel)]):
-                        Pdos_dic[str(spin)+"_k"+str(iel)] += w*funcpot.gaussian(min_e,
-                                                                           max_e, x,
-                                                                           self.sigma,
-                                                                           self.points)
+                    if spin == "ALPHA":
+                        for x, w in zip(totE_diff_alpha,
+                                        orbitals_dic[str(spin)+"_k"+str(iel)]):
+                            Pdos_dic[str(spin)+"_k"+str(iel)] += w*funcpot.gaussian(min_e,
+                                                                               max_e, x,
+                                                                               self.sigma,
+                                                                               self.points)
+                    elif spin == "BETA":
+                        for x, w in zip(totE_diff_beta,
+                                        orbitals_dic[str(spin)+"_k"+str(iel)]):
+                            Pdos_dic[str(spin)+"_k"+str(iel)] += w*funcpot.gaussian(min_e,
+                                                                               max_e, x,
+                                                                               self.sigma,
+                                                                               self.points)
 
-                    if spin == 'ALPHA':
-                        for x in totE_diff_alpha:
-                            Tdos_alpha +=  funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
-                    if spin == 'BETA':
-                        for x in totE_diff_beta:
-                            Tdos_beta +=  funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
+            #if spin == 'ALPHA':
+            for x in totE_diff_alpha:
+                Tdos_alpha += funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
+            #if spin == 'BETA':
+            for x in totE_diff_beta:
+                Tdos_beta += funcpot.gaussian(min_e, max_e, x, self.sigma, self.points)
 
             # (-1,1) stellt fuer: -1 zu viele Reihe wie Noetig. 1 Spalte
             dos_total  = funcpot.tot_dens(Tdos_alpha, Tdos_beta)

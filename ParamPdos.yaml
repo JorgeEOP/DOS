@@ -1,12 +1,12 @@
 ---
-Name of the system: 2-membered
+Name of the system: 5-membered
 Number of elements in the system: 4
 Spin Polarized system: y
-Name of PDOS: 2-membered-ALPHA_k1-1.pdos
-Path to Input: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/2m/SinPoint/CP2K/run_mul_3/
-Path to Output: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/2m/SinPoint/CP2K/run_mul_3/
-Name of PDOS alpha: 2-membered-ALPHA_k1-1.pdos
-Name of PDOS beta: 2-membered-BETA_k1-1.pdos
+Name of PDOS: 
+Path to Input: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/5m/SinPoint/CP2K/run_mul_6/PBE/
+Path to Output: /Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/5m/SinPoint/CP2K/run_mul_6/PBE/
+Name of PDOS alpha: 5-membered-ALPHA_k1-1.pdos
+Name of PDOS beta: 5-membered-BETA_k1-1.pdos
 Gaussian Parameters:
  - Standard deviation: 0.01
  - Points: 12000
