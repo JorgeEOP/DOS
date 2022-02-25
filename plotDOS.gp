@@ -44,14 +44,14 @@ set style textbox opaque noborder
 #F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/4m/SinPoint/\
 #CP2K/run_mul_1/4-membered-T-PDOS.dat"
 ## 5 mem
-F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/5m/SinPoint/\
-CP2K/run_mul_2/Gas/5-membered_gas-T-PDOS.dat"
+#F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/5m/SinPoint/\
+#CP2K/run_mul_2/Gas/5-membered_gas-T-PDOS.dat"
 ## Gas
 #F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/Gas/\
 #Gas_YPc-T-PDOS.dat"
 ## 2PorYPc
-#F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/PorYPc/SinPoint/UP/CP2K/\
-#PorYPc-T-PDOS.dat"
+F2P   = "/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/2PorYPc/SinPoint/HS/\
+3te_GEO/CP2K/PDOS/2PorYPc-T-PDOS.dat"
 
 #set grid ls 11
 #set grid xtics
@@ -91,14 +91,17 @@ set style textbox opaque noborder
 #set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/4m/\
 #SinPoint/CP2K/run_mul_1/PDOS-4m-YPc.png'
 ## 5 mem
-set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/5m/\
-SinPoint/CP2K/run_mul_2/gas/PDOS-5m-YPc.png'
+#set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/5m/\
+#SinPoint/CP2K/run_mul_2/gas/PDOS-5m-YPc.png'
 ## Gas
 #set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/Crystal/Gas\
 #/PDOS-Gas-YPc.png'
 ## Gas
 #set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/PorYPc/SinPoint/\
 #UP/CP2K/PDOS-PorYPc.png'
+## 2PorYPc
+set output '/Users/jorge_jaeger/Desktop/Physik/KIT/PhD/Nithin/2PorYPc/SinPoint/\
+HS/3te_GEO/CP2K/PDOS/PDOS-2PorYPc.png'
 
 ## 1 mem
 #fenA = -2.4801817993905764 
@@ -153,12 +156,15 @@ set arrow from fenB, graph 0 to fenB, graph 0.5 nohead ls 111
 
 p F2P u 1:2      w l ls 2 title 'Total DOS {/Symbol a}',\
   F2P u 1:2      w filledcurves above y2=0 ls 2 fs transparent solid 0.2 notitle ,\
-  F2P u 1:(-$3)  w l ls 3 title 'Total DOS {/Symbol b}',\
-  F2P u 1:(-$3)  w filledcurves below y2=0 ls 3 fs transparent solid 0.2 notitle,\
-  F2P u 1:9      w l ls 22  title 'C',\
-  F2P u 1:9      w filledcurves above y2=0 ls 22 fs transparent solid 0.2 notitle,\
-  F2P u 1:(-$10) w l ls 33  title 'C',\
-  F2P u 1:(-$10) w filledcurves below y2=0 ls 33 fs transparent solid 0.2 notitle,\
+
+#p F2P u 1:2      w l ls 2 title 'Total DOS {/Symbol a}',\
+#  F2P u 1:2      w filledcurves above y2=0 ls 2 fs transparent solid 0.2 notitle ,\
+#  F2P u 1:(-$3)  w l ls 3 title 'Total DOS {/Symbol b}',\
+#  F2P u 1:(-$3)  w filledcurves below y2=0 ls 3 fs transparent solid 0.2 notitle,\
+#  F2P u 1:9      w l ls 22  title 'C',\
+#  F2P u 1:9      w filledcurves above y2=0 ls 22 fs transparent solid 0.2 notitle,\
+#  F2P u 1:(-$10) w l ls 33  title 'C',\
+#  F2P u 1:(-$10) w filledcurves below y2=0 ls 33 fs transparent solid 0.2 notitle,\
 
 #  F2P u 1:5     w l ls 6  title 'Y',\
 #  F2P u 1:(-$6) w l ls 7  title 'Y',\

@@ -57,7 +57,7 @@ class projected_dos:
                 ab1['var3']   =  Pdos_C
                 np.savetxt(f1, ab1, fmt=('%4.6f', '%4.6f','%4.6f'))
 
-        elif self.Spin in ["Yes","yes","Y","y"]:
+        elif self.Spin in ["Yes", "yes", "Y", "y"]:
 
             Ef = []
 
